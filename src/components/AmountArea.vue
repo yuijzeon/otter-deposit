@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { watchEffect } from 'vue'
 import { PaymentChannel } from "../deposit/models";
 import CurrencyInput from "./CurrencyInput.vue";
 
@@ -9,32 +8,41 @@ const props = defineProps({
   },
   channel: {
     type: Object as () => PaymentChannel,
+    required: true,
   }
 });
 
-const currency = 'USDT';
 const emit = defineEmits(['update:modelValue']);
 
-watchEffect(() => {
-  emit('update:modelValue', props.modelValue);
-});
+function updateAmount(amountValue: Number) {
+  if (amountValue > props.channel.min
+      && amountValue < props.channel.max) {
+    emit('update:modelValue', amountValue);
+  }
+  else {
+    emit('update:modelValue', null);
+  }
+}
 </script>
 
 <template>
   {{ modelValue === null ? 'null' : modelValue }}
   <div>
     <CurrencyInput
+        style="width: 250px;"
         :model-value="modelValue"
-        @update:model-value="newValue => emit('update:modelValue', newValue)"
-        :currency="currency"
+        @update:model-value="newValue => updateAmount(newValue)"
+        :currency="channel.currency"
     ></CurrencyInput>
-    <br>
+
     <template v-if="channel">
-      <template v-for="ar in channel.amountRanges">
-        {{ ar }}
+      <template v-for="sa in channel.suggestAmounts">
+        <q-btn no-caps
+               :label="`${sa.rank} - ${sa.amount}`"
+               @click="() => { updateAmount(sa.amount) }"
+        />
       </template>
     </template>
-
   </div>
 </template>
 

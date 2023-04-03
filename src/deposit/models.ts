@@ -3,18 +3,14 @@ export class SuggestAmount {
     amount: number = 0;
 }
 
-export class AmountRange {
-    min: number = 0;
-    max: number = 0;
-    currency: string = '';
-}
-
 export class PaymentChannel {
     name: string | null = null;
     key: string | null = null;
     status: 'Unknown' | 'Active' | 'Inactive' = 'Unknown';
     hasFee: boolean = false;
-    amountRanges: AmountRange[] = [];
+    min: number = 0;
+    max: number = 0;
+    currency: string = '';
     suggestAmounts: SuggestAmount[] = [];
 }
 

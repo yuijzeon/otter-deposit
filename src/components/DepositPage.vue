@@ -14,9 +14,9 @@ const selected = reactive({
   channelKey: "",
 });
 const paymentMethods = reactive<PaymentMethod[]>([]);
-const selectedMethod = computed<PaymentMethod | null>(() => paymentMethods.find(pm => pm.key === selected.methodKey || (!pm.key && !selected.methodKey)) || null);
-const selectedOption = computed<PaymentOption | null>(() => selectedMethod.value?.options.find(po => po.key === selected.optionKey || (!po.key && !selected.optionKey)) || null);
-const selectedChannel = computed<PaymentChannel | null>(() => selectedOption.value?.channels.find(pc => pc.key === selected.channelKey || (!pc.key && !selected.channelKey)) || null);
+const selectedMethod = computed<PaymentMethod | undefined>(() => paymentMethods.find(pm => pm.key === selected.methodKey || (!pm.key && !selected.methodKey)));
+const selectedOption = computed<PaymentOption | undefined>(() => selectedMethod.value?.options.find(po => po.key === selected.optionKey || (!po.key && !selected.optionKey)));
+const selectedChannel = computed<PaymentChannel | undefined>(() => selectedOption.value?.channels.find(pc => pc.key === selected.channelKey || (!pc.key && !selected.channelKey)));
 
 onMounted(async () => {
   paymentMethods.push(...(await api.getPaymentOptions()));
@@ -42,6 +42,7 @@ onMounted(async () => {
   ></PaymentChannelArea>
 
   <AmountArea
+      v-if="selectedChannel"
       v-model="selected.amount"
       :channel="selectedChannel"
   ></AmountArea>

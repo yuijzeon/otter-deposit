@@ -17,13 +17,9 @@ export const getPaymentOptions: () => Promise<PaymentMethod[]> = async () => {
                             name: 'NewebPay',
                             status: 'Active',
                             hasFee: true,
-                            amountRanges: [
-                                {
-                                    min: 200,
-                                    max: 1000000,
-                                    currency: 'TWD'
-                                }
-                            ],
+                            min: 200,
+                            max: 1000000,
+                            currency: 'TWD',
                             suggestAmounts: [
                                 {
                                     rank: 'low',
@@ -44,13 +40,9 @@ export const getPaymentOptions: () => Promise<PaymentMethod[]> = async () => {
                             name: 'ECPay',
                             status: 'Active',
                             hasFee: true,
-                            amountRanges: [
-                                {
-                                    min: 200,
-                                    max: 1000000,
-                                    currency: 'TWD'
-                                }
-                            ],
+                            min: 200,
+                            max: 1000000,
+                            currency: 'TWD',
                             suggestAmounts: [
                                 {
                                     rank: 'low',
@@ -71,13 +63,9 @@ export const getPaymentOptions: () => Promise<PaymentMethod[]> = async () => {
                             name: 'KingsPay',
                             status: 'Active',
                             hasFee: false,
-                            amountRanges: [
-                                {
-                                    min: 60,
-                                    max: 1000000,
-                                    currency: 'TWD'
-                                }
-                            ],
+                            min: 60,
+                            max: 1000000,
+                            currency: 'TWD',
                             suggestAmounts: [
                                 {
                                     rank: 'low',
@@ -105,13 +93,9 @@ export const getPaymentOptions: () => Promise<PaymentMethod[]> = async () => {
                             name: 'NewebPay',
                             status: 'Active',
                             hasFee: true,
-                            amountRanges: [
-                                {
-                                    min: 200,
-                                    max: 1000000,
-                                    currency: 'TWD'
-                                }
-                            ],
+                            min: 200,
+                            max: 1000000,
+                            currency: 'TWD',
                             suggestAmounts: [
                                 {
                                     rank: 'low',
@@ -132,13 +116,9 @@ export const getPaymentOptions: () => Promise<PaymentMethod[]> = async () => {
                             name: 'ECPay',
                             status: 'Active',
                             hasFee: true,
-                            amountRanges: [
-                                {
-                                    min: 200,
-                                    max: 1000000,
-                                    currency: 'TWD'
-                                }
-                            ],
+                            min: 200,
+                            max: 1000000,
+                            currency: 'TWD',
                             suggestAmounts: [
                                 {
                                     rank: 'low',
@@ -159,13 +139,9 @@ export const getPaymentOptions: () => Promise<PaymentMethod[]> = async () => {
                             name: 'KingsPay',
                             status: 'Active',
                             hasFee: false,
-                            amountRanges: [
-                                {
-                                    min: 60,
-                                    max: 1000000,
-                                    currency: 'TWD'
-                                }
-                            ],
+                            min: 60,
+                            max: 1000000,
+                            currency: 'TWD',
                             suggestAmounts: [
                                 {
                                     rank: 'low',
@@ -193,13 +169,9 @@ export const getPaymentOptions: () => Promise<PaymentMethod[]> = async () => {
                             name: 'NewebPay',
                             status: 'Active',
                             hasFee: true,
-                            amountRanges: [
-                                {
-                                    min: 200,
-                                    max: 1000000,
-                                    currency: 'TWD'
-                                }
-                            ],
+                            min: 200,
+                            max: 1000000,
+                            currency: 'TWD',
                             suggestAmounts: [
                                 {
                                     rank: 'low',
@@ -220,13 +192,9 @@ export const getPaymentOptions: () => Promise<PaymentMethod[]> = async () => {
                             name: 'ECPay',
                             status: 'Active',
                             hasFee: true,
-                            amountRanges: [
-                                {
-                                    min: 200,
-                                    max: 1000000,
-                                    currency: 'TWD'
-                                }
-                            ],
+                            min: 200,
+                            max: 1000000,
+                            currency: 'TWD',
                             suggestAmounts: [
                                 {
                                     rank: 'low',
@@ -247,13 +215,9 @@ export const getPaymentOptions: () => Promise<PaymentMethod[]> = async () => {
                             name: 'KingsPay',
                             status: 'Active',
                             hasFee: false,
-                            amountRanges: [
-                                {
-                                    min: 60,
-                                    max: 1000000,
-                                    currency: 'TWD'
-                                }
-                            ],
+                            min: 60,
+                            max: 1000000,
+                            currency: 'TWD',
                             suggestAmounts: [
                                 {
                                     rank: 'low',
@@ -281,13 +245,9 @@ export const getPaymentOptions: () => Promise<PaymentMethod[]> = async () => {
                             name: 'NewebPay',
                             status: 'Active',
                             hasFee: true,
-                            amountRanges: [
-                                {
-                                    min: 200,
-                                    max: 1000000,
-                                    currency: 'TWD'
-                                }
-                            ],
+                            min: 200,
+                            max: 1000000,
+                            currency: 'TWD',
                             suggestAmounts: [
                                 {
                                     rank: 'low',
@@ -308,13 +268,9 @@ export const getPaymentOptions: () => Promise<PaymentMethod[]> = async () => {
                             name: 'ECPay',
                             status: 'Active',
                             hasFee: true,
-                            amountRanges: [
-                                {
-                                    min: 200,
-                                    max: 1000000,
-                                    currency: 'TWD'
-                                }
-                            ],
+                            min: 200,
+                            max: 1000000,
+                            currency: 'TWD',
                             suggestAmounts: [
                                 {
                                     rank: 'low',
@@ -335,13 +291,9 @@ export const getPaymentOptions: () => Promise<PaymentMethod[]> = async () => {
                             name: 'KingsPay',
                             status: 'Active',
                             hasFee: false,
-                            amountRanges: [
-                                {
-                                    min: 60,
-                                    max: 1000000,
-                                    currency: 'TWD'
-                                }
-                            ],
+                            min: 60,
+                            max: 1000000,
+                            currency: 'TWD',
                             suggestAmounts: [
                                 {
                                     rank: 'low',
@@ -382,13 +334,9 @@ export const getPaymentOptions: () => Promise<PaymentMethod[]> = async () => {
                             name: 'NewebPay',
                             status: 'Active',
                             hasFee: false,
-                            amountRanges: [
-                                {
-                                    min: 60,
-                                    max: 1000000,
-                                    currency: 'TWD'
-                                }
-                            ],
+                            min: 60,
+                            max: 1000000,
+                            currency: 'TWD',
                             suggestAmounts: [
                                 {
                                     rank: 'low',
@@ -409,13 +357,9 @@ export const getPaymentOptions: () => Promise<PaymentMethod[]> = async () => {
                             name: 'ECPay',
                             status: 'Active',
                             hasFee: false,
-                            amountRanges: [
-                                {
-                                    min: 200,
-                                    max: 1000000,
-                                    currency: 'TWD'
-                                }
-                            ],
+                            min: 200,
+                            max: 1000000,
+                            currency: 'TWD',
                             suggestAmounts: [
                                 {
                                     rank: 'low',
@@ -450,18 +394,9 @@ export const getPaymentOptions: () => Promise<PaymentMethod[]> = async () => {
                             name: 'Orbital',
                             status: 'Active',
                             hasFee: false,
-                            amountRanges: [
-                                {
-                                    min: 100,
-                                    max: 1000000,
-                                    currency: 'TWD'
-                                },
-                                {
-                                    min: 3.27,
-                                    max: 32732.83,
-                                    currency: 'USDT'
-                                },
-                            ],
+                            min: 100,
+                            max: 1000000,
+                            currency: 'TWD',
                             suggestAmounts: [
                                 {
                                     rank: 'low',
