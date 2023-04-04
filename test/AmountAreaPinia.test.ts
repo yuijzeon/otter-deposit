@@ -30,16 +30,21 @@ describe("PaymentMethodAreaWithPinia", () => {
 
         await wrapper.vm.$nextTick();
 
-        expect(store.depositRequest.value.amount).toBe(null);
+        depositAmountShouldBe(null);
 
-        input.element.value = '100';
-        await input.trigger('input');
+        await triggerInput('200');
+        depositAmountShouldBe(200);
 
-        expect(store.depositRequest.value.amount).toBe(100);
-
-        input.element.value = '9999999';
-        await input.trigger('input');
-
-        expect(store.depositRequest.value.amount).toBe(null);
+        await triggerInput('9999999');
+        depositAmountShouldBe(null);
     });
+
+    function depositAmountShouldBe(storeValue: Number | null) {
+        expect(store.depositRequest.value.amount).toBe(storeValue);
+    }
+
+    async function triggerInput(value: string) {
+        input.element.value = value;
+        await input.trigger('input');
+    }
 });

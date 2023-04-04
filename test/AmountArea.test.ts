@@ -26,19 +26,21 @@ describe("AmountArea", () => {
             } as PaymentChannel,
         });
 
-        expect(wrapper.emitted('update:modelValue')!.at(-1)).toEqual([null]);
+        depositAmountShouldBe(null);
 
-        input.element.value = '100';
-        await input.trigger('input');
+        await triggerInput('200');
+        depositAmountShouldBe(200);
 
-        input.element.value = '200';
-        await input.trigger('input');
-
-        expect(wrapper.emitted('update:modelValue')!.at(-1)).toEqual([200]);
-
-        input.element.value = '9999999';
-        await input.trigger('input');
-
-        expect(wrapper.emitted('update:modelValue')!.at(-1)).toEqual([null]);
+        await triggerInput('9999999');
+        depositAmountShouldBe(null);
     });
+
+    function depositAmountShouldBe(modelValue: Number | null) {
+        expect(wrapper.emitted('update:modelValue')!.at(-1)).toEqual([modelValue]);
+    }
+
+    async function triggerInput(value: string) {
+        input.element.value = value;
+        await input.trigger('input');
+    }
 });
