@@ -59,8 +59,8 @@ export const getPaymentOptions: () => Promise<PaymentMethod[]> = async () => {
                             ]
                         },
                         {
-                            key: 'kings_pay',
-                            name: 'KingsPay',
+                            key: 'otter_pay',
+                            name: 'OtterPayment',
                             status: 'Active',
                             hasFee: false,
                             min: 60,
@@ -135,8 +135,8 @@ export const getPaymentOptions: () => Promise<PaymentMethod[]> = async () => {
                             ]
                         },
                         {
-                            key: 'kings_pay',
-                            name: 'KingsPay',
+                            key: 'otter_pay',
+                            name: 'OtterPayment',
                             status: 'Active',
                             hasFee: false,
                             min: 60,
@@ -211,8 +211,8 @@ export const getPaymentOptions: () => Promise<PaymentMethod[]> = async () => {
                             ]
                         },
                         {
-                            key: 'kings_pay',
-                            name: 'KingsPay',
+                            key: 'otter_pay',
+                            name: 'OtterPayment',
                             status: 'Active',
                             hasFee: false,
                             min: 60,
@@ -287,8 +287,8 @@ export const getPaymentOptions: () => Promise<PaymentMethod[]> = async () => {
                             ]
                         },
                         {
-                            key: 'kings_pay',
-                            name: 'KingsPay',
+                            key: 'otter_pay',
+                            name: 'OtterPayment',
                             status: 'Active',
                             hasFee: false,
                             min: 60,
