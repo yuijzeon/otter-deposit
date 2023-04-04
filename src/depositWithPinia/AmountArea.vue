@@ -2,6 +2,7 @@
 import { toRefs } from "vue";
 import CurrencyInput from "../components/CurrencyInput.vue";
 import { useDepositStore } from './depositStore'
+
 const { selectedChannel, depositRequest } = toRefs(useDepositStore());
 
 function updateAmount(amountValue: number) {
@@ -30,7 +31,7 @@ function updateAmount(amountValue: number) {
         <q-btn no-caps
                :label="`${sa.rank} - ${sa.amount}`"
                @click="() => { updateAmount(sa.amount) }"
-        />
+        ></q-btn>
       </template>
     </template>
   </div>

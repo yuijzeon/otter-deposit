@@ -40,7 +40,7 @@ function updateAmount(amountValue: number) {
         <q-btn no-caps
                :label="`${sa.rank} - ${sa.amount}`"
                @click="() => { updateAmount(sa.amount) }"
-        />
+        ></q-btn>
       </template>
     </template>
   </div>
