@@ -13,25 +13,26 @@ beforeEach(() => {
         propsData: { modelValue: 'initial', paymentMethods: [] }
     });
 });
-describe("Search", () => {
+
+describe("PaymentMethodArea", () => {
     test('choose first active method', async () => {
         await wrapper.setProps({
             paymentMethods: [
-                { key: 'neweb_pay', name: 'NewebPay', status: 'Inactive', options: [] },
-                { key: 'ec_pay', name: 'ECPay', status: 'Active', options: [new PaymentOption()] },
+                { key: 'bank_transfer', name: 'Bank Transfer', status: 'Inactive', options: [] },
+                { key: 'line_pay', name: 'LinePay', status: 'Active', options: [new PaymentOption()] },
             ]
         });
 
         expect(wrapper.findAll('button')[0].element.disabled).toBe(true);
         expect(wrapper.findAll('button')[1].element.disabled).toBe(false);
-        expect(wrapper.emitted('update:modelValue')).toEqual([['ec_pay']]);
+        expect(wrapper.emitted('update:modelValue')).toEqual([['line_pay']]);
     });
 
     test('all payment inactive', async () => {
         await wrapper.setProps({
             paymentMethods: [
-                { key: 'neweb_pay', name: 'NewebPay', status: 'Inactive', options: [] },
-                { key: 'ec_pay', name: 'ECPay', status: 'Inactive', options: [] },
+                { key: 'bank_transfer', name: 'Bank Transfer', status: 'Inactive', options: [] },
+                { key: 'line_pay', name: 'LinePay', status: 'Inactive', options: [] },
             ]
         });
 
@@ -43,13 +44,13 @@ describe("Search", () => {
     test('choose first method', async () => {
         await wrapper.setProps({
             paymentMethods: [
-                { key: 'neweb_pay', name: 'NewebPay', status: 'Active', options: [new PaymentOption()] },
-                { key: 'ec_pay', name: 'ECPay', status: 'Active', options: [new PaymentOption()] },
+                { key: 'bank_transfer', name: 'Bank Transfer', status: 'Active', options: [new PaymentOption()] },
+                { key: 'line_pay', name: 'LinePay', status: 'Active', options: [new PaymentOption()] },
             ]
         });
 
         expect(wrapper.findAll('button')[0].element.disabled).toBe(false);
         expect(wrapper.findAll('button')[1].element.disabled).toBe(false);
-        expect(wrapper.emitted('update:modelValue')).toEqual([['neweb_pay']]);
+        expect(wrapper.emitted('update:modelValue')).toEqual([['bank_transfer']]);
     });
 });
