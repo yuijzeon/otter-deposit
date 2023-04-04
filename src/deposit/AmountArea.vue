@@ -14,7 +14,7 @@ const props = defineProps({
 
 const emit = defineEmits(['update:modelValue']);
 
-function updateAmount(amountValue: Number) {
+function updateAmount(amountValue: number) {
   if (amountValue > props.channel.min
       && amountValue < props.channel.max) {
     emit('update:modelValue', amountValue);

@@ -1,36 +1,29 @@
 <script setup lang="ts">
-import { watch } from 'vue'
-import { PaymentMethod } from "../deposit/models";
+import { toRefs, watch } from 'vue'
+import { useDepositStore } from './depositStore'
+const { payments, selectedMethod, depositRequest } = toRefs(useDepositStore());
 
-const props = defineProps({
-  modelValue: {
-    type: String,
-    required: true
-  },
-  paymentMethods: {
-    type: Array as () => PaymentMethod[],
-    required: true
+watch(() => payments, () => {
+  if (!payments.value.filter(pm => pm.status === 'Active').some(pm => pm.key === selectedMethod.value.key)) {
+    selectedMethod.value = payments.value.filter(pm => pm.status === 'Active')[0];
   }
-});
+}, { deep: true });
 
-const emit = defineEmits(['update:modelValue']);
-
-watch(() => props.paymentMethods, () => {
-  if (!props.paymentMethods.filter(pm => pm.status === 'Active').some(pm => pm.key === props.modelValue)) {
-    emit('update:modelValue', props.paymentMethods.filter(pm => pm.status === 'Active')[0]?.key || '');
-  }
+watch(() => selectedMethod, () => {
+  depositRequest.value.paymentMethod = selectedMethod.value.key || '';
 }, { deep: true });
 </script>
 
 <template>
-  {{ modelValue }}
+  {{ depositRequest.paymentMethod }}
   <div>
-    <template v-for="pm in paymentMethods">
-      <q-btn no-caps
+    <template v-for="pm in payments">
+      <q-btn
+          no-caps
           :label="pm.name"
           :disable="pm.status !== 'Active'"
-          :color="pm.key === modelValue || (!pm.key && !modelValue) ? 'primary' : 'grey'"
-          @click="() => { emit('update:modelValue', pm.key) }"
+          :color="pm.key === selectedMethod.key || (!pm.key && !selectedMethod.key) ? 'primary' : 'grey'"
+          @click="() => { selectedMethod = { ...pm }; }"
       />
     </template>
   </div>

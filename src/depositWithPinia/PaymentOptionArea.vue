@@ -1,37 +1,28 @@
 <script setup lang="ts">
-import { watch } from 'vue'
-import { PaymentOption } from "../deposit/models";
+import { toRefs, watch } from 'vue'
+import { useDepositStore } from './depositStore'
+const { selectedMethod, selectedOption, depositRequest } = toRefs(useDepositStore());
 
-const props = defineProps({
-  modelValue: {
-    type: String,
-    required: true
-  },
-  paymentOptions: {
-    type: Array as () => PaymentOption[],
-    required: true,
-    default: []
+watch(() => selectedMethod.value.options, () => {
+  if (!selectedMethod.value.options.filter(pm => pm.status === 'Active').some(pm => pm.key === selectedMethod.value.key)) {
+    selectedOption.value = selectedMethod.value.options.filter(pm => pm.status === 'Active')[0];
   }
-});
+}, { deep: true });
 
-const emit = defineEmits(['update:modelValue']);
-
-watch(() => props.paymentOptions, () => {
-  if (!props.paymentOptions.filter(po => po.status === 'Active').some(po => po.key === props.modelValue)) {
-    emit('update:modelValue', props.paymentOptions.filter(po => po.status === 'Active')[0]?.key || '');
-  }
+watch(() => selectedOption, () => {
+  depositRequest.value.bankCode = selectedOption.value.key || '';
 }, { deep: true });
 </script>
 
 <template>
-  {{ modelValue }}
-  <div v-show="paymentOptions.length > 1">
-    <template v-for="po in paymentOptions">
+  {{ depositRequest.bankCode }}
+  <div v-show="selectedMethod.options.length > 1">
+    <template v-for="po in selectedMethod.options">
       <q-btn no-caps
           :label="po.name"
           :disable="po.status !== 'Active'"
-          :color="po.key === modelValue || (!po.key && !modelValue) ? 'primary' : 'grey'"
-          @click="() => { emit('update:modelValue', po.key) }"
+          :color="po.key === selectedOption.key || (!po.key && !selectedOption.key) ? 'primary' : 'grey'"
+          @click="() => { selectedOption = { ...po }; }"
       />
     </template>
   </div>

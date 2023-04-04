@@ -1,42 +1,32 @@
 <script setup lang="ts">
-import { PaymentChannel } from "../deposit/models";
+import { toRefs } from "vue";
 import CurrencyInput from "../components/CurrencyInput.vue";
+import { useDepositStore } from './depositStore'
+const { payments, selectedMethod, selectedOption, selectedChannel, depositRequest } = toRefs(useDepositStore());
 
-const props = defineProps({
-  modelValue: {
-    type: Number,
-  },
-  channel: {
-    type: Object as () => PaymentChannel,
-    default: new PaymentChannel(),
-  }
-});
-
-const emit = defineEmits(['update:modelValue']);
-
-function updateAmount(amountValue: Number) {
-  if (amountValue > props.channel.min
-      && amountValue < props.channel.max) {
-    emit('update:modelValue', amountValue);
+function updateAmount(amountValue: number) {
+  if (amountValue > selectedChannel.value.min
+      && amountValue < selectedChannel.value.max) {
+    depositRequest.value.amount = amountValue;
   }
   else {
-    emit('update:modelValue', null);
+    depositRequest.value.amount = null;
   }
 }
 </script>
 
 <template>
-  {{ modelValue === null ? 'null' : modelValue }}
+  {{ depositRequest.amount === null ? 'null' : depositRequest.amount }}
   <div>
     <CurrencyInput
         style="width: 250px;"
-        :model-value="modelValue"
+        :model-value="depositRequest.amount"
         @update:model-value="newValue => updateAmount(newValue)"
-        :currency="channel.currency"
+        :currency="selectedChannel.currency"
     ></CurrencyInput>
 
-    <template v-if="channel">
-      <template v-for="sa in channel.suggestAmounts">
+    <template v-if="selectedChannel">
+      <template v-for="sa in selectedChannel.suggestAmounts">
         <q-btn no-caps
                :label="`${sa.rank} - ${sa.amount}`"
                @click="() => { updateAmount(sa.amount) }"

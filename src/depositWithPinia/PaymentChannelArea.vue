@@ -1,37 +1,28 @@
 <script setup lang="ts">
-import { watch } from 'vue'
-import { PaymentChannel } from "../deposit/models";
+import { toRefs, watch } from 'vue'
+import { useDepositStore } from './depositStore'
+const { selectedOption, selectedChannel, depositRequest } = toRefs(useDepositStore());
 
-const props = defineProps({
-  modelValue: {
-    type: String,
-    required: true
-  },
-  paymentChannels: {
-    type: Array as () => PaymentChannel[],
-    required: true,
-    default: []
+watch(() => selectedOption.value.channels, () => {
+  if (!selectedOption.value.channels.filter(pc => pc.status === 'Active').some(pc => pc.key === selectedOption.value.key)) {
+    selectedChannel.value = selectedOption.value.channels.filter(pc => pc.status === 'Active')[0];
   }
-});
+}, { deep: true });
 
-const emit = defineEmits(['update:modelValue']);
-
-watch(() => props.paymentChannels, () => {
-  if (!props.paymentChannels.filter(pc => pc.status === 'Active').some(pc => pc.key === props.modelValue)) {
-    emit('update:modelValue', props.paymentChannels.filter(pc => pc.status === 'Active')[0]?.key || '');
-  }
+watch(() => selectedChannel, () => {
+  depositRequest.value.provider = selectedChannel.value.key || '';
 }, { deep: true });
 </script>
 
 <template>
-  {{ modelValue }}
+  {{ depositRequest.provider }}
   <div>
-    <template v-for="pc in paymentChannels">
+    <template v-for="pc in selectedOption.channels">
       <q-btn no-caps
           :label="`${pc.name}${pc.hasFee ? '*' : ''}`"
           :disable="pc.status !== 'Active'"
-          :color="pc.key === modelValue || (!pc.key && !modelValue) ? 'primary' : 'grey'"
-          @click="() => { emit('update:modelValue', pc.key) }"
+          :color="pc.key === selectedChannel.key || (!pc.key && !selectedChannel.key) ? 'primary' : 'grey'"
+          @click="() => { selectedChannel = { ...pc }; }"
       />
     </template>
   </div>
