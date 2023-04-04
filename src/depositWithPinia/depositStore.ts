@@ -1,7 +1,7 @@
 import { defineStore } from 'pinia'
 import { DepositRequest, PaymentChannel, PaymentMethod, PaymentOption } from "../deposit/models";
 
-interface IDepositStore {
+export interface IDepositStore {
     depositRequest: DepositRequest,
     payments: PaymentMethod[],
     selectedMethod: PaymentMethod,

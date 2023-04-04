@@ -2,7 +2,7 @@
 import { toRefs } from "vue";
 import CurrencyInput from "../components/CurrencyInput.vue";
 import { useDepositStore } from './depositStore'
-const { payments, selectedMethod, selectedOption, selectedChannel, depositRequest } = toRefs(useDepositStore());
+const { selectedChannel, depositRequest } = toRefs(useDepositStore());
 
 function updateAmount(amountValue: number) {
   if (amountValue > selectedChannel.value.min
