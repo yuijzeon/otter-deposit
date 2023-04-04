@@ -1,3 +1,13 @@
+export class DepositRequest {
+    paymentMethod: string = '';
+    provider: string = '';
+    bankCode: string = '';
+    amount: number | null = null;
+    get continuable() {
+        return this.amount === null;
+    }
+}
+
 export class SuggestAmount {
     rank: string = '';
     amount: number = 0;

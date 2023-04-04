@@ -418,6 +418,6 @@ export const getPaymentOptions: () => Promise<PaymentMethod[]> = async () => {
         }
     ];
     console.log(paymentMethods);
-    await new Promise(resolve => setTimeout(resolve, 2000));
+    await new Promise(resolve => setTimeout(resolve, 500));
     return paymentMethods;
 }

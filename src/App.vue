@@ -1,7 +1,9 @@
 <script setup lang="ts">
-import DepositPage from "./deposit/DepositPage.vue";
+// import DepositPage from "./deposit/DepositPage.vue";
+import DepositPageWithPinia from "./depositWithPinia/DepositPage.vue";
 </script>
 
 <template>
-  <DepositPage/>
+  <!--  <DepositPage/>-->
+  <DepositPageWithPinia/>
 </template>

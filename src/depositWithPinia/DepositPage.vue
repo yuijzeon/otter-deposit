@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive } from 'vue'
-import * as api from "./apis";
-import { PaymentMethod, PaymentOption, PaymentChannel, DepositRequest } from "./models";
+import * as api from "../deposit/apis";
+import { PaymentMethod, PaymentOption, PaymentChannel, DepositRequest } from "../deposit/models";
 import PaymentMethodArea from "./PaymentMethodArea.vue";
 import PaymentOptionArea from "./PaymentOptionArea.vue";
 import PaymentChannelArea from "./PaymentChannelArea.vue";
