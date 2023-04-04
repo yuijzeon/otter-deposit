@@ -3,8 +3,8 @@ import { test, expect } from 'vitest'
 import { mount } from "@vue/test-utils";
 import CurrencyInput from "../src/components/CurrencyInput.vue";
 
-test('BRL, VND should see diff decimal sign', async () => {
-    const propsData: { modelValue: number, currency: String } = {
+test('BRL, VND should see different decimal sign', async () => {
+    const propsData: { modelValue: Number, currency: String } = {
         modelValue: 1000,
         currency: 'VND'
     };

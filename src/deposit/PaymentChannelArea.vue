@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { watch } from 'vue'
-import { PaymentChannel } from "../deposit/models";
+import { PaymentChannel } from "./models";
 
 const props = defineProps({
   modelValue: {

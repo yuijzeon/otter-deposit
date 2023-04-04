@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { PaymentChannel } from "../deposit/models";
-import CurrencyInput from "./CurrencyInput.vue";
+import { PaymentChannel } from "./models";
+import CurrencyInput from "../components/CurrencyInput.vue";
 
 const props = defineProps({
   modelValue: {
@@ -8,7 +8,7 @@ const props = defineProps({
   },
   channel: {
     type: Object as () => PaymentChannel,
-    required: true,
+    default: new PaymentChannel(),
   }
 });
 

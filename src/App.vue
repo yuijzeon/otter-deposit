@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import DepositPage from "./components/DepositPage.vue";
+import DepositPage from "./deposit/DepositPage.vue";
 </script>
 
 <template>

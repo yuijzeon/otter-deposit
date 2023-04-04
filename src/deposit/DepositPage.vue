@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive } from 'vue'
-import * as api from "../deposit/apis";
-import { PaymentMethod, PaymentOption, PaymentChannel } from "../deposit/models";
+import * as api from "./apis";
+import { PaymentMethod, PaymentOption, PaymentChannel } from "./models";
 import PaymentMethodArea from "./PaymentMethodArea.vue";
 import PaymentOptionArea from "./PaymentOptionArea.vue";
 import PaymentChannelArea from "./PaymentChannelArea.vue";
@@ -42,7 +42,6 @@ onMounted(async () => {
   ></PaymentChannelArea>
 
   <AmountArea
-      v-if="selectedChannel"
       v-model="selected.amount"
       :channel="selectedChannel"
   ></AmountArea>
