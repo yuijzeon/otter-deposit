@@ -27,7 +27,7 @@ describe("Search", () => {
         expect(wrapper.emitted('update:modelValue')).toEqual([['ec_pay']]);
     });
 
-    test('all payment method inactive', async () => {
+    test('all payment inactive', async () => {
         await wrapper.setProps({
             paymentMethods: [
                 { key: 'neweb_pay', name: 'NewebPay', status: 'Inactive', options: [] },
