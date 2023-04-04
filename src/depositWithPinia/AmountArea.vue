@@ -26,13 +26,11 @@ function updateAmount(amountValue: number) {
         :currency="selectedChannel.currency"
     ></CurrencyInput>
 
-    <template v-if="selectedChannel">
-      <template v-for="sa in selectedChannel.suggestAmounts">
-        <q-btn no-caps
-               :label="`${sa.rank} - ${sa.amount}`"
-               @click="() => { updateAmount(sa.amount) }"
-        ></q-btn>
-      </template>
+    <template v-for="sa in selectedChannel.suggestAmounts">
+      <q-btn no-caps
+             :label="`${sa.rank} - ${sa.amount}`"
+             @click="() => { updateAmount(sa.amount) }"
+      ></q-btn>
     </template>
   </div>
 </template>
