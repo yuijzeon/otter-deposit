@@ -42,7 +42,7 @@ test('BRL, VND should see different decimal sign', async () => {
     expect(input.element.value).toBe('1.000');
 });
 
-test('USDT should see default decimal sign', () => {
+test('USDT should see default decimal sign', async () => {
     const propsData: { modelValue: number, currency: String } = {
         modelValue: 1000,
         currency: 'USDT'
