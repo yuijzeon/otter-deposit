@@ -16,8 +16,8 @@ describe("PaymentMethodAreaWithPinia", () => {
 
     beforeEach(() => {
         setActivePinia(createPinia());
-        wrapper = mount(PaymentMethodArea);
         store = toRefs(useDepositStore());
+        wrapper = mount(PaymentMethodArea);
     });
 
     test('choose first active method', async () => {
