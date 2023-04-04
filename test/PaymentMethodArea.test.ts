@@ -7,14 +7,15 @@ import PaymentMethodArea from "../src/deposit/PaymentMethodArea.vue";
 
 installQuasarPlugin();
 
-let wrapper: VueWrapper;
-beforeEach(() => {
-    wrapper = mount(PaymentMethodArea, {
-        propsData: { modelValue: 'initial', paymentMethods: [] }
-    });
-});
-
 describe("PaymentMethodArea", () => {
+    let wrapper: VueWrapper;
+
+    beforeEach(() => {
+        wrapper = mount(PaymentMethodArea, {
+            propsData: { modelValue: 'initial', paymentMethods: [] }
+        });
+    });
+
     test('choose first active method', async () => {
         await wrapper.setProps({
             paymentMethods: [

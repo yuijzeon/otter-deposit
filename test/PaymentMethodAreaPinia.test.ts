@@ -5,20 +5,21 @@ import { test, expect, describe, beforeEach } from 'vitest'
 import { installQuasarPlugin } from "@quasar/quasar-app-extension-testing-unit-vitest";
 import { createPinia, setActivePinia, Store } from "pinia";
 import { IDepositStore, useDepositStore } from "../src/depositWithPinia/depositStore";
-import PaymentMethodArea from "../src/depositWithPinia/PaymentMethodArea.vue";
 import { PaymentOption } from "../src/deposit/models";
+import PaymentMethodArea from "../src/depositWithPinia/PaymentMethodArea.vue";
 
 installQuasarPlugin();
 
-let wrapper: VueWrapper;
-let store: ToRefs<Store<"deposit", IDepositStore>>;
-beforeEach(() => {
-    setActivePinia(createPinia());
-    wrapper = mount(PaymentMethodArea);
-    store = toRefs(useDepositStore());
-});
-
 describe("PaymentMethodAreaWithPinia", () => {
+    let wrapper: VueWrapper;
+    let store: ToRefs<Store<"deposit", IDepositStore>>;
+
+    beforeEach(() => {
+        setActivePinia(createPinia());
+        wrapper = mount(PaymentMethodArea);
+        store = toRefs(useDepositStore());
+    });
+
     test('choose first active method', async () => {
         store.payments.value = [
             { key: 'bank_transfer', name: 'Bank Transfer', status: 'Inactive', options: [] },
