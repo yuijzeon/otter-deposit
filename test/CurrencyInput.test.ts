@@ -1,54 +1,54 @@
 // @vitest-environment jsdom
-import { test, expect } from 'vitest'
-import { mount } from "@vue/test-utils";
+import { test, expect, describe, beforeEach } from 'vitest'
+import { DOMWrapper, mount, VueWrapper } from "@vue/test-utils";
 import CurrencyInput from "../src/components/CurrencyInput.vue";
 
-test('format number', async () => {
-    const propsData: { modelValue: Number, currency: String } = {
-        modelValue: 1000,
-        currency: 'THB'
-    };
+describe("PaymentMethodArea", () => {
+    let wrapper: VueWrapper;
+    let input: DOMWrapper<HTMLInputElement>;
 
-    const wrapper = mount(CurrencyInput, { propsData });
-    const input = wrapper.find('input');
+    beforeEach(() => {
+        wrapper = mount(CurrencyInput);
+        input = wrapper.find('input');
+    });
 
-    expect(input.element.value).toBe('1,000');
+    test('format number', async () => {
+        await wrapper.setProps({ modelValue: 1000, currency: 'THB' });
 
-    input.element.value = '8888';
-    await input.trigger('input');
+        expect(input.element.value).toBe('1,000');
+        expect(wrapper.emitted('update:modelValue')!.at(-1)).toEqual([1000]);
 
-    expect(input.element.value).toBe('8,888');
+        input.element.value = '8888';
+        await input.trigger('input');
 
-    input.element.value = '9,999';
-    await input.trigger('input');
+        expect(input.element.value).toBe('8,888');
+        expect(wrapper.emitted('update:modelValue')!.at(-1)).toEqual([8888]);
 
-    expect(input.element.value).toBe('9,999');
+        input.element.value = '9,999';
+        await input.trigger('input');
 
-    input.element.value = '9.999';
-    await input.trigger('input');
+        expect(input.element.value).toBe('9,999');
+        expect(wrapper.emitted('update:modelValue')!.at(-1)).toEqual([9999]);
 
-    expect(input.element.value).toBe('10');
-});
+        input.element.value = '9.999';
+        await input.trigger('input');
 
-test('BRL, VND should see different decimal sign', async () => {
-    const propsData: { modelValue: Number, currency: String } = {
-        modelValue: 1000,
-        currency: 'VND'
-    };
+        expect(input.element.value).toBe('10');
+        expect(wrapper.emitted('update:modelValue')!.at(-1)).toEqual([10]);
+    });
 
-    const wrapper = mount(CurrencyInput, { propsData });
-    const input = wrapper.find('input');
+    test('BRL, VND should see different decimal sign', async () => {
+        await wrapper.setProps({ modelValue: 1000, currency: 'VND' });
 
-    expect(input.element.value).toBe('1.000');
-});
+        expect(input.element.value).toBe('1.000');
+        expect(wrapper.emitted('update:modelValue')!.at(-1)).toEqual([1000]);
+    });
 
-test('USDT should see default decimal sign', async () => {
-    const propsData: { modelValue: Number, currency: String } = {
-        modelValue: 1000,
-        currency: 'USDT'
-    };
+    test('USDT should see default decimal sign', async () => {
+        await wrapper.setProps({ modelValue: 1000, currency: 'USDT' });
 
-    const wrapper = mount(CurrencyInput, { propsData });
+        expect(wrapper.find('input').element.value).toBe('1,000');
+        expect(wrapper.emitted('update:modelValue')!.at(-1)).toEqual([1000]);
+    });
 
-    expect(wrapper.find('input').element.value).toBe('1,000');
 });

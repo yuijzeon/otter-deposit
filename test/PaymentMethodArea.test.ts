@@ -19,39 +19,39 @@ describe("PaymentMethodArea", () => {
     test('choose first active method', async () => {
         await wrapper.setProps({
             paymentMethods: [
-                { key: 'bank_transfer', name: 'Bank Transfer', status: 'Inactive', options: [] },
-                { key: 'line_pay', name: 'LinePay', status: 'Active', options: [new PaymentOption()] },
-            ]
+                { key: 'bank_transfer', status: 'Inactive' },
+                { key: 'line_pay', status: 'Active' },
+            ] as PaymentOption[],
         });
 
         expect(wrapper.findAll('button')[0].element.disabled).toBe(true);
         expect(wrapper.findAll('button')[1].element.disabled).toBe(false);
-        expect(wrapper.emitted('update:modelValue')).toEqual([['line_pay']]);
+        expect(wrapper.emitted('update:modelValue')!.at(-1)).toEqual(['line_pay']);
     });
 
     test('all payment inactive', async () => {
         await wrapper.setProps({
             paymentMethods: [
-                { key: 'bank_transfer', name: 'Bank Transfer', status: 'Inactive', options: [] },
-                { key: 'line_pay', name: 'LinePay', status: 'Inactive', options: [] },
-            ]
+                { key: 'bank_transfer', status: 'Inactive' },
+                { key: 'line_pay', status: 'Inactive' },
+            ] as PaymentOption[],
         });
 
         expect(wrapper.findAll('button')[0].element.disabled).toBe(true);
         expect(wrapper.findAll('button')[1].element.disabled).toBe(true);
-        expect(wrapper.emitted('update:modelValue')).toEqual([['']]);
+        expect(wrapper.emitted('update:modelValue')!.at(-1)).toEqual(['']);
     });
 
     test('choose first method', async () => {
         await wrapper.setProps({
             paymentMethods: [
-                { key: 'bank_transfer', name: 'Bank Transfer', status: 'Active', options: [new PaymentOption()] },
-                { key: 'line_pay', name: 'LinePay', status: 'Active', options: [new PaymentOption()] },
-            ]
+                { key: 'bank_transfer', status: 'Active' },
+                { key: 'line_pay', status: 'Active' },
+            ] as PaymentOption[],
         });
 
         expect(wrapper.findAll('button')[0].element.disabled).toBe(false);
         expect(wrapper.findAll('button')[1].element.disabled).toBe(false);
-        expect(wrapper.emitted('update:modelValue')).toEqual([['bank_transfer']]);
+        expect(wrapper.emitted('update:modelValue')!.at(-1)).toEqual(['bank_transfer']);
     });
 });

@@ -5,7 +5,7 @@ import { test, expect, describe, beforeEach } from 'vitest'
 import { installQuasarPlugin } from "@quasar/quasar-app-extension-testing-unit-vitest";
 import { createPinia, setActivePinia, Store } from "pinia";
 import { IDepositStore, useDepositStore } from "../src/depositWithPinia/depositStore";
-import { PaymentOption } from "../src/deposit/models";
+import { PaymentMethod } from "../src/deposit/models";
 import PaymentMethodArea from "../src/depositWithPinia/PaymentMethodArea.vue";
 
 installQuasarPlugin();
@@ -22,9 +22,9 @@ describe("PaymentMethodAreaWithPinia", () => {
 
     test('choose first active method', async () => {
         store.payments.value = [
-            { key: 'bank_transfer', name: 'Bank Transfer', status: 'Inactive', options: [] },
-            { key: 'line_pay', name: 'LinePay', status: 'Active', options: [new PaymentOption()] },
-        ];
+            { key: 'bank_transfer', status: 'Inactive' },
+            { key: 'line_pay', status: 'Active' },
+        ] as PaymentMethod[];
 
         await wrapper.vm.$nextTick();
 
@@ -35,9 +35,9 @@ describe("PaymentMethodAreaWithPinia", () => {
 
     test('all payment inactive', async () => {
         store.payments.value = [
-            { key: 'bank_transfer', name: 'Bank Transfer', status: 'Inactive', options: [] },
-            { key: 'line_pay', name: 'LinePay', status: 'Inactive', options: [] },
-        ];
+            { key: 'bank_transfer', status: 'Inactive' },
+            { key: 'line_pay', status: 'Inactive' },
+        ] as PaymentMethod[];
 
         await wrapper.vm.$nextTick();
 
@@ -48,9 +48,9 @@ describe("PaymentMethodAreaWithPinia", () => {
 
     test('choose first method', async () => {
         store.payments.value = [
-            { key: 'bank_transfer', name: 'Bank Transfer', status: 'Active', options: [new PaymentOption()] },
-            { key: 'line_pay', name: 'LinePay', status: 'Active', options: [new PaymentOption()] },
-        ];
+            { key: 'bank_transfer', status: 'Active' },
+            { key: 'line_pay', status: 'Active' },
+        ] as PaymentMethod[];
 
         await wrapper.vm.$nextTick();
 

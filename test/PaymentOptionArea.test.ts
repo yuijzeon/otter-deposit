@@ -24,6 +24,6 @@ describe("PaymentOptionArea", () => {
         await wrapper.setProps({ paymentOptions });
 
         expect(wrapper.find('div').element.style.display).toBe('none');
-        expect(wrapper.emitted('update:modelValue')).toEqual([['']]);
+        expect(wrapper.emitted('update:modelValue')!.at(-1)).toEqual(['']);
     });
 });
