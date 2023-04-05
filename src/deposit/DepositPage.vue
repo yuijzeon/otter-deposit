@@ -15,6 +15,7 @@ const selectedOption = computed<PaymentOption | undefined>(() => selectedMethod.
 const selectedChannel = computed<PaymentChannel | undefined>(() => selectedOption.value?.channels.find(pc => pc.key === selected.provider || (!pc.key && !selected.provider)));
 
 onMounted(async () => {
+  // await api.getPayments();
   paymentMethods.push(...(await api.getPayments()));
 });
 
