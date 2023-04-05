@@ -62,21 +62,21 @@ import { mount } from "@vue/test-utils";
 import App from "../src/App.vue";
 
 test("show one button", () => {
-    const wrapper = mount(App);
-    console.log(wrapper.html());
-    expect(wrapper.findAll("button").length).toBe(1);
+  const wrapper = mount(App);
+  console.log(wrapper.html());
+  expect(wrapper.findAll("button").length).toBe(1);
 });
 ```
 也可以模擬用戶操作 (await 記得要加!)
 ```TypeScript
 test("click 3 times", async () => {
-    const wrapper = mount(App);
+  const wrapper = mount(App);
 
-    await wrapper.find("button").trigger("click");
-    await wrapper.find("button").trigger("click");
-    await wrapper.find("button").trigger("click");
+  await wrapper.find("button").trigger("click");
+  await wrapper.find("button").trigger("click");
+  await wrapper.find("button").trigger("click");
 
-    expect(wrapper.html()).contain('count is 3');
+  expect(wrapper.html()).contain('count is 3');
 });
 ```
 
@@ -111,9 +111,9 @@ export default mergeConfig(viteConfig, defineConfig({
 App.vue
 ```HTML
 <!--<script setup lang="ts">-->
-import { ref } from "vue";
+    import { ref } from "vue";
 <!--import HelloWorld from './components/HelloWorld.vue'-->
-const msg = ref('Vite + Vue');
+    const msg = ref('Vite + Vue');
 <!--</script>-->
 
 <!--<template>-->
@@ -125,22 +125,22 @@ const msg = ref('Vite + Vue');
 <!--      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />-->
 <!--    </a>-->
 <!--  </div>-->
-<h1>{{ msg }}</h1>
-<HelloWorld v-model="msg" />
+      <h1>{{ msg }}</h1>
+      <HelloWorld v-model="msg" />
 <!--</template>-->
 ```
 HelloWorld.vue
 ```HTML
 <!--<script setup lang="ts">-->
 <!--import { ref } from 'vue'-->
-defineProps<{ modelValue: string }>();
-const emit = defineEmits(['update:modelValue']);
+    defineProps<{ modelValue: string }>();
+    const emit = defineEmits(['update:modelValue']);
 <!--const count = ref(0)-->
 <!--</script>-->
 
 <!--<template>-->
 <!--  <div class="card">-->
-<button type="button" @click="() => {
+        <button type="button" @click="() => {
           count++;
           emit('update:modelValue', `count is ${ count }`);
         }">click me!</button>
@@ -156,15 +156,15 @@ const emit = defineEmits(['update:modelValue']);
 at(-1) 是取最後一次 emit 的值
 ```TypeScript
 test("hello world", async () => {
-    const wrapper = mount(HelloWorld, { props: { modelValue: "hello world" } });
-    // console.log(wrapper.emitted('update:modelValue'));
-    await wrapper.find("button").trigger("click");
-    // console.log(wrapper.emitted('update:modelValue'));
-    await wrapper.find("button").trigger("click");
-    // console.log(wrapper.emitted('update:modelValue'));
-    await wrapper.find("button").trigger("click");
-    // console.log(wrapper.emitted('update:modelValue'));
-    expect(wrapper.emitted('update:modelValue')!.at(-1)).toEqual(['count is 3']);
+  const wrapper = mount(HelloWorld, { props: { modelValue: "hello world" } });
+  // console.log(wrapper.emitted('update:modelValue'));
+  await wrapper.find("button").trigger("click");
+  // console.log(wrapper.emitted('update:modelValue'));
+  await wrapper.find("button").trigger("click");
+  // console.log(wrapper.emitted('update:modelValue'));
+  await wrapper.find("button").trigger("click");
+  // console.log(wrapper.emitted('update:modelValue'));
+  expect(wrapper.emitted('update:modelValue')!.at(-1)).toEqual(['count is 3']);
 });
 ```
 其他 emit 也是相同的方法測
@@ -289,13 +289,17 @@ function setMsgByFn() {
 測試可以用 `vi.spyOn()` 造假此方法
 ```TypeScript
 test("mock function", async () => {
-  const wrapper = mount(App);
-  const mockFn = vi.spyOn(wrapper.vm, 'setMsgByFn');
-  mockFn.mockImplementation(() => 'mocked message');
-    
-  await wrapper.find('input[type=button]').trigger('click');
+    const wrapper = mount(App);
+    const mockFn = vi.spyOn(wrapper.vm, 'setMsgByFn');
+    mockFn.mockImplementation(() => 'mocked message');
+    await wrapper.find('input[type=button]').trigger('click');
 
-  expect(wrapper.find("h1").text()).toBe("mocked message");
+    expect(wrapper.find("h1").text()).toBe("mocked message");
+
+    mockFn.mockRestore();
+    await wrapper.find('input[type=button]').trigger('click');
+
+    expect(wrapper.find("h1").text()).toBe("This message is from function");
 });
 ```
 
