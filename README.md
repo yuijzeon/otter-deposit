@@ -29,13 +29,13 @@ npm run dev
 import { describe, test, expect, beforeEach } from "vitest";
 
 describe("my tests", () => {
-  beforeEach(() => {
-    console.log("before each");
-  });
+    beforeEach(() => {
+        console.log("before each");
+    });
 
-  test("first", () => {
-    expect(1).toBe(1);
-  });
+    test("first", () => {
+        expect(1).toBe(1);
+    });
 });
 ```
 [更多 API](https://vitest.dev/api/)
@@ -62,21 +62,21 @@ import { mount } from "@vue/test-utils";
 import App from "../src/App.vue";
 
 test("show one button", () => {
-  const wrapper = mount(App);
-  console.log(wrapper.html());
-  expect(wrapper.findAll("button").length).toBe(1);
+    const wrapper = mount(App);
+    console.log(wrapper.html());
+    expect(wrapper.findAll("button").length).toBe(1);
 });
 ```
 也可以模擬用戶操作 (await 記得要加!)
 ```TypeScript
 test("click 3 times", async () => {
-  const wrapper = mount(App);
+    const wrapper = mount(App);
 
-  await wrapper.find("button").trigger("click");
-  await wrapper.find("button").trigger("click");
-  await wrapper.find("button").trigger("click");
+    await wrapper.find("button").trigger("click");
+    await wrapper.find("button").trigger("click");
+    await wrapper.find("button").trigger("click");
 
-  expect(wrapper.html()).contain('count is 3');
+    expect(wrapper.html()).contain('count is 3');
 });
 ```
 
@@ -111,9 +111,9 @@ export default mergeConfig(viteConfig, defineConfig({
 App.vue
 ```HTML
 <!--<script setup lang="ts">-->
-    import { ref } from "vue";
+import { ref } from "vue";
 <!--import HelloWorld from './components/HelloWorld.vue'-->
-    const msg = ref('Vite + Vue');
+const msg = ref('Vite + Vue');
 <!--</script>-->
 
 <!--<template>-->
@@ -125,22 +125,22 @@ App.vue
 <!--      <img src="./assets/vue.svg" class="logo vue" alt="Vue logo" />-->
 <!--    </a>-->
 <!--  </div>-->
-      <h1>{{ msg }}</h1>
-      <HelloWorld v-model="msg" />
+<h1>{{ msg }}</h1>
+<HelloWorld v-model="msg" />
 <!--</template>-->
 ```
 HelloWorld.vue
 ```HTML
 <!--<script setup lang="ts">-->
 <!--import { ref } from 'vue'-->
-    defineProps<{ modelValue: string }>();
-    const emit = defineEmits(['update:modelValue']);
+defineProps<{ modelValue: string }>();
+const emit = defineEmits(['update:modelValue']);
 <!--const count = ref(0)-->
 <!--</script>-->
 
 <!--<template>-->
 <!--  <div class="card">-->
-        <button type="button" @click="() => {
+<button type="button" @click="() => {
           count++;
           emit('update:modelValue', `count is ${ count }`);
         }">click me!</button>
@@ -156,23 +156,148 @@ HelloWorld.vue
 at(-1) 是取最後一次 emit 的值
 ```TypeScript
 test("hello world", async () => {
-  const wrapper = mount(HelloWorld, { props: { modelValue: "hello world" } });
-  // console.log(wrapper.emitted('update:modelValue'));
-  await wrapper.find("button").trigger("click");
-  // console.log(wrapper.emitted('update:modelValue'));
-  await wrapper.find("button").trigger("click");
-  // console.log(wrapper.emitted('update:modelValue'));
-  await wrapper.find("button").trigger("click");
-  // console.log(wrapper.emitted('update:modelValue'));
-  expect(wrapper.emitted('update:modelValue')!.at(-1)).toEqual(['count is 3']);
+    const wrapper = mount(HelloWorld, { props: { modelValue: "hello world" } });
+    // console.log(wrapper.emitted('update:modelValue'));
+    await wrapper.find("button").trigger("click");
+    // console.log(wrapper.emitted('update:modelValue'));
+    await wrapper.find("button").trigger("click");
+    // console.log(wrapper.emitted('update:modelValue'));
+    await wrapper.find("button").trigger("click");
+    // console.log(wrapper.emitted('update:modelValue'));
+    expect(wrapper.emitted('update:modelValue')!.at(-1)).toEqual(['count is 3']);
 });
 ```
 其他 emit 也是相同的方法測
 
+## 當 Vitest 遇上 Pinia
+[>](https://pinia.vuejs.org/getting-started.html) 安裝一下 npm 包
+```PowerShell
+npm i pinia
+```
+打開 main.ts 加上這幾行
+```TypeScript
+//  import { createApp } from 'vue'
+    import { createPinia } from 'pinia'
+//  import './style.css'
+//  import App from './App.vue'
 
+    const myApp = createApp(App);
+    myApp.use(createPinia());
+    myApp.mount('#app');
+```
+創建 store.ts
+```TypeScript
+import { defineStore } from "pinia";
 
+export interface IMyStore {
+  message: string;
+}
 
+export const useMyStore = defineStore("myStore", {
+  state: (): IMyStore => ({
+    message: "Hello World",
+  }),
+});
+```
+App.vue 加上這些
+```HTML
+<script setup lang="ts">
+...
+import { useMyStore } from './store'
+const store = useMyStore();
+...
+</script>
 
+<template>
+...
+  <input v-model="store.message">
+...
+</template>
+```
+HelloWorld.vue 加上這些
+```HTML
+<script setup lang="ts">
+...
+import { useMyStore } from '../store'
+const store = useMyStore();
+...
+</script>
+
+<template>
+...
+  <div class="store-msg">{{ store.message }}</div>
+...
+</template>
+```
+可以 run 一下看看是否正常 接下來就可以寫測試了
+```TypeScript
+import { toRefs, ToRefs } from "vue";
+import { describe, test, expect, beforeEach } from "vitest";
+import { mount } from "@vue/test-utils";
+import { createPinia, setActivePinia, Store } from "pinia";
+import { IMyStore, useMyStore } from "../src/store";
+import App from "../src/App.vue";
+
+describe("pinia", () => {
+  let store: ToRefs<Store<"myStore", IMyStore>>;
+
+  beforeEach(() => {
+    setActivePinia(createPinia());
+    store = toRefs(useMyStore());
+  });
+
+  test("cross component", async () => {
+    const wrapper = mount(App);
+
+    await wrapper.find("input").setValue("lipovitan");
+
+    expect(store.message.value).toBe("lipovitan");
+    expect(wrapper.find("div.store-msg").text()).toBe("lipovitan");
+  });
+
+  test("only hello world", async () => {
+    const wrapper = mount(HelloWorld, { props: { modelValue: "" } });
+    
+    store.message.value = "aromabrew";
+    await wrapper.vm.$nextTick();
+
+    expect(wrapper.find("div.store-msg").text()).toBe("aromabrew");
+  });
+});
+```
+要從 store 裡拿值也很簡單
+
+beforEach 裡 setActivePinia(createPinia()) 可以避免測試的值被汙染
+
+如果是直接改 store 裡的值 需要額外等待 DOM 更新 (`await wrapper.vm.$nextTick()`)
+
+## 造假元件內部的 function
+App.vue 加上這些
+```HTML
+<script setup lang="ts">
+...
+function setMsgByFn() {
+  return 'This message is from function';
+}
+</script>
+
+<template>
+  <input type="button" value="setMsgByFn" @click="() => { msg = setMsgByFn()}"/>
+...
+</template>
+```
+測試可以用 `vi.spyOn()` 造假此方法
+```TypeScript
+test("mock function", async () => {
+  const wrapper = mount(App);
+  const mockFn = vi.spyOn(wrapper.vm, 'setMsgByFn');
+  mockFn.mockImplementation(() => 'mocked message');
+    
+  await wrapper.find('input[type=button]').trigger('click');
+
+  expect(wrapper.find("h1").text()).toBe("mocked message");
+});
+```
 
 
 ## 依賴注入
