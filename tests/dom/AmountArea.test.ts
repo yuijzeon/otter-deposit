@@ -1,9 +1,8 @@
-// @vitest-environment jsdom
 import { beforeEach, describe, expect, test } from 'vitest'
 import { DOMWrapper, mount, VueWrapper } from "@vue/test-utils";
 import { installQuasarPlugin } from "@quasar/quasar-app-extension-testing-unit-vitest";
-import { PaymentChannel } from "../src/deposit/models";
-import AmountArea from "../src/deposit/AmountArea.vue";
+import { PaymentChannel } from "../../src/deposit/models";
+import AmountArea from "../../src/deposit/AmountArea.vue";
 
 installQuasarPlugin();
 

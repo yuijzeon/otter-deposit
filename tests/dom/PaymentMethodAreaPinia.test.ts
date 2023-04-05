@@ -4,9 +4,9 @@ import { mount, VueWrapper } from "@vue/test-utils";
 import { test, expect, describe, beforeEach } from 'vitest'
 import { installQuasarPlugin } from "@quasar/quasar-app-extension-testing-unit-vitest";
 import { createPinia, setActivePinia, Store } from "pinia";
-import { IDepositStore, useDepositStore } from "../src/depositWithPinia/depositStore";
-import { PaymentMethod } from "../src/deposit/models";
-import PaymentMethodArea from "../src/depositWithPinia/PaymentMethodArea.vue";
+import { IDepositStore, useDepositStore } from "../../src/depositWithPinia/depositStore";
+import { PaymentMethod } from "../../src/deposit/models";
+import PaymentMethodArea from "../../src/depositWithPinia/PaymentMethodArea.vue";
 
 installQuasarPlugin();
 
