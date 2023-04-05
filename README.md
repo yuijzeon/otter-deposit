@@ -1,8 +1,4 @@
 # Vite - Vitest - Pinia Workshop
-
-
-
-
 ## 環境
 這篇文章的 node 環境是 16.17.0
 ```PowerShell
@@ -27,6 +23,7 @@ npm run dev
 
 ## 第一個測試
 建立一個 first.test.ts 檔案
+
 跟 C# 的 UnitTest 很像, 可以開始寫單純的程式邏輯了
 ```TypeScript
 import { describe, test, expect, beforeEach } from "vitest";
@@ -50,9 +47,13 @@ npm i -D @vue/test-utils
 npm i -D jsdom
 ```
 需要聲明測試運行環境 (第一行的 `// @vitest-environment`)
+
 把想測試的組件 import 進來 mount 得到 wrapper
+
 可以 console 印出來看看我們的組件現在到底長怎樣
+
 就可以針對最終的畫面來寫測試了
+
 假如我想測該組件僅包含一個 button 元素
 ```TypeScript
 // @vitest-environment jsdom
@@ -81,9 +82,13 @@ test("click 3 times", async () => {
 
 ## 配置 vitest.config.ts
 [>](https://vitest.dev/guide/environment.html) Vitest 預設會拿 Vite 的 config 但假如想自訂專屬 vitest 的設定
+
 可以建立 vitest.config.ts 檔案
+
 如下 environmentMatchGlobs 設定
+
 在 tests/dom/ 資料夾下的測試都將以 jsdom 的環境運行
+
 這樣就不用每個測試檔案都加 `// @vitest-environment jsdom` 來指定運行環境
 ```TypeScript
 import { mergeConfig } from 'vite'
@@ -102,6 +107,7 @@ export default mergeConfig(viteConfig, defineConfig({
 
 ## 測試 emit/v-model 值
 我們先修改原本的組件 使之以 v-model 傳值
+
 App.vue
 ```HTML
 <!--<script setup lang="ts">-->
@@ -146,6 +152,7 @@ HelloWorld.vue
 <!--...-->
 ```
 之後就可以來寫測試了 可以打開註解來觀察 wrapper.emitted() 回傳值得變化
+
 at(-1) 是取最後一次 emit 的值
 ```TypeScript
 test("hello world", async () => {
@@ -160,7 +167,12 @@ test("hello world", async () => {
   expect(wrapper.emitted('update:modelValue')!.at(-1)).toEqual(['count is 3']);
 });
 ```
-其他 emit 也是差不多方法測
+其他 emit 也是相同的方法測
+
+
+
+
+
 
 
 ## 依賴注入
