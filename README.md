@@ -28,7 +28,7 @@ npm run dev
 ## 第一個測試
 建立一個 first.test.ts 檔案
 跟 C# 的 UnitTest 很像, 可以開始寫單純的程式邏輯了
-```TypeScript
+```HTML
 import { describe, test, expect, beforeEach } from "vitest";
 
 describe("my tests", () => {
@@ -54,7 +54,7 @@ npm i -D jsdom
 可以 console 印出來看看我們的組件現在到底長怎樣
 就可以針對最終的畫面來寫測試了
 假如我想測該組件僅包含一個 button 元素
-```TypeScript
+```HTML
 // @vitest-environment jsdom
 import { describe, test, expect } from "vitest";
 import { mount } from "@vue/test-utils";
@@ -67,7 +67,7 @@ test("show one button", () => {
 });
 ```
 也可以模擬用戶操作 (await 記得要加!)
-```TypeScript
+```HTML
 test("click 3 times", async () => {
   const wrapper = mount(App);
 
@@ -85,7 +85,7 @@ test("click 3 times", async () => {
 如下 environmentMatchGlobs 設定
 在 tests/dom/ 資料夾下的測試都將以 jsdom 的環境運行
 這樣就不用每個測試檔案都加 `// @vitest-environment jsdom` 來指定運行環境
-```TypeScript
+```HTML
 import { mergeConfig } from 'vite'
 import { defineConfig } from 'vitest/config'
 import viteConfig from './vite.config'
@@ -103,7 +103,7 @@ export default mergeConfig(viteConfig, defineConfig({
 ## 測試 emit/v-model 值
 我們先修改原本的組件 使之以 v-modle 傳值
 App.vue
-```TypeScript
+```HTML
 //<script setup lang="ts">
   import { ref } from "vue";
 //import HelloWorld from './components/HelloWorld.vue'
@@ -124,7 +124,7 @@ App.vue
 //</template>
 ```
 HelloWorld.vue
-```TypeScript
+```HTML
 //<script setup lang="ts">
 //import { ref } from 'vue'
   defineProps<{ modelValue: string }>();
@@ -147,7 +147,7 @@ HelloWorld.vue
 ```
 之後就可以來寫測試了 可以打開註解來觀察 wrapper.emitted() 回傳值得變化
 at(-1) 是取最後一次 emit 的值
-```TypeScript
+```HTML
 test("hello world", async () => {
   const wrapper = mount(HelloWorld, { props: { modelValue: "hello world" } });
   // console.log(wrapper.emitted('update:modelValue'));
