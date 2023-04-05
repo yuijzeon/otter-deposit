@@ -1,16 +1,17 @@
 <script setup lang="ts">
-import { onMounted, toRefs } from 'vue'
-import * as api from "../deposit/apis";
+import { onMounted, inject, toRefs } from 'vue'
 import PaymentMethodArea from "./PaymentMethodArea.vue";
 import PaymentOptionArea from "./PaymentOptionArea.vue";
 import PaymentChannelArea from "./PaymentChannelArea.vue";
 import AmountArea from "./AmountArea.vue";
-
+import { IDepositApis } from "../deposit/apis";
 import { useDepositStore } from './depositStore'
+
+const api: IDepositApis = inject('depositApis')!;
 const { depositRequest, payments } = toRefs(useDepositStore());
 
 onMounted(async () => {
-  payments.value.push(...(await api.getPaymentOptions()));
+  payments.value.push(...(await api.getPayments()));
 });
 
 async function doDeposit() {

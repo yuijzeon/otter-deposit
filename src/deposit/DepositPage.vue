@@ -1,12 +1,13 @@
 <script setup lang="ts">
-import { computed, onMounted, reactive } from 'vue'
-import * as api from "./apis";
+import { computed, inject, onMounted, reactive } from 'vue'
 import { PaymentMethod, PaymentOption, PaymentChannel, DepositRequest } from "./models";
 import PaymentMethodArea from "./PaymentMethodArea.vue";
 import PaymentOptionArea from "./PaymentOptionArea.vue";
 import PaymentChannelArea from "./PaymentChannelArea.vue";
 import AmountArea from "./AmountArea.vue";
+import { IDepositApis } from "./apis";
 
+const api: IDepositApis = inject('depositApis')!;
 const selected = reactive<DepositRequest>(new DepositRequest());
 const paymentMethods = reactive<PaymentMethod[]>([]);
 const selectedMethod = computed<PaymentMethod | undefined>(() => paymentMethods.find(pm => pm.key === selected.paymentMethod || (!pm.key && !selected.paymentMethod)));
@@ -14,7 +15,7 @@ const selectedOption = computed<PaymentOption | undefined>(() => selectedMethod.
 const selectedChannel = computed<PaymentChannel | undefined>(() => selectedOption.value?.channels.find(pc => pc.key === selected.provider || (!pc.key && !selected.provider)));
 
 onMounted(async () => {
-  paymentMethods.push(...(await api.getPaymentOptions()));
+  paymentMethods.push(...(await api.getPayments()));
 });
 
 async function doDeposit() {
