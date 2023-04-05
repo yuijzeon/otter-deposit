@@ -10,7 +10,7 @@ import AmountArea from "../src/depositWithPinia/AmountArea.vue";
 
 installQuasarPlugin();
 
-describe("PaymentMethodAreaWithPinia", () => {
+describe("AmountAreaWithPinia", () => {
     let wrapper: VueWrapper;
     let store: ToRefs<Store<"deposit", IDepositStore>>;
     let input: DOMWrapper<HTMLInputElement>;

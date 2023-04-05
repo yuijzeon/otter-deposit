@@ -3,7 +3,7 @@ import { test, expect, describe, beforeEach } from 'vitest'
 import { DOMWrapper, mount, VueWrapper } from "@vue/test-utils";
 import CurrencyInput from "../src/components/CurrencyInput.vue";
 
-describe("PaymentMethodArea", () => {
+describe("CurrencyInput", () => {
     let wrapper: VueWrapper;
     let input: DOMWrapper<HTMLInputElement>;
 
