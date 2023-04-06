@@ -350,6 +350,7 @@ test("mock api", async () => {
 ```
 
 ## 依賴注入
+有空再說
 https://vuejs.org/guide/components/provide-inject.html
 
 
