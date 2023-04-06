@@ -376,6 +376,7 @@ Store 傳值
 
 ### 只要有 Quasar 組件跑測試就報錯
 > 有用到 UI Framework 測試可能需要安裝額外 NPM 包
+> 
 > 如 Quasar 需要額外安裝 `@quasar/quasar-app-extension-testing-unit-vitest`
 
 ### 已經 await nextTick() 了 expect 仍然是舊的值
