@@ -354,14 +354,34 @@ https://vuejs.org/guide/components/provide-inject.html
 
 
 ## 後記
-遇到的一些雷:
+
+### Store 傳值 vs Props 傳值
+
+Store 傳值
+* 程式的可讀性變差，因為它會讓程式的流程變得複雜，且不易理解。
+* 程式的可維護性變差，因為它會讓程式的錯誤更難以追蹤和修正。
+* 程式的可重用性變差，因為它會讓程式的模組化和組件化變得更加困難。
+
+以上是一些常見的壞處，但是在某些情況下，也是有其優點的。例如，在需要共享資料的情況下，可以避免資料重複定義和浪費記憶體等問題。但是，需要注意其壞處，並根據具體情況進行選擇。 --By ChatGPT
+
+除了避免浪費記憶體，另外一個使用 pinia 顯而易見的好處是存取方便，不需在組件定義 Props，只需引入對應的 store 即可使用，在組件裡的程式碼較少，看起來比較乾淨
+
+在兩個或多個組件同時需要修改同一個 store 變數時容易造成變數汙染
+
+為了讓邏輯正常運作開始陷入增加 event 或 watch 的循環
+
+當兩個的時候或許還能看得懂
+
+在更多組件的情況下將難以追蹤究竟是誰修改了變數
+
+隨著時間過去，新功能越來越多，變數也無可避免的越來越多，該頁面的 pinia store 有可能會也會越來越長，最後變成要在一堆變數裡找尋需要的東西，我相信這個體驗不會太好的
 
 ### 只要有 Quasar 組件跑測試就報錯
 > 有用到 UI Framework 測試可能需要安裝額外 NPM 包
 > 如 Quasar 需要額外安裝 `@quasar/quasar-app-extension-testing-unit-vitest`
 
 ### 已經 await nextTick() 了 expect 仍然是舊的值
-> 一次 nextTick 有時候會不夠, 需要兩次甚至是三次才能得到我預期的結果
-> 觸發到幾次 await 就要多 await nextTick() 幾次
-
+> 如果 mock 是用 setTimeout() 的話 test 的時候也要用 setTimeout() 等 不然 DOM 也不會刷新
+> 
+> 不是 timeout 問題的話 可以嘗試多 await nextTick() 幾次 通常代表有多筆 DOM 更新事件被觸發
 https://github.com/yuijzeon/otter-deposit
