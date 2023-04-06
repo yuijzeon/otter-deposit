@@ -210,7 +210,7 @@ const store = useMyStore();
 
 <template>
 ...
-  <input v-model="store.message">
+  <input id="storeInput" v-model="store.message">
 ...
 </template>
 ```
@@ -249,7 +249,7 @@ describe("pinia", () => {
   test("cross component", async () => {
     const wrapper = mount(App);
 
-    await wrapper.find("input").setValue("lipovitan");
+    await wrapper.find("#storeInput").setValue("lipovitan");
 
     expect(store.message.value).toBe("lipovitan");
     expect(wrapper.find("div.store-msg").text()).toBe("lipovitan");
@@ -282,27 +282,72 @@ function setMsgByFn() {
 </script>
 
 <template>
-  <input type="button" value="setMsgByFn" @click="() => { msg = setMsgByFn()}"/>
+  <input type="button" id="setMsgByFn" value="setMsgByFn" @click="() => { msg = setMsgByFn()}"/>
 ...
 </template>
 ```
 測試可以用 `vi.spyOn()` 造假此方法
 ```TypeScript
 test("mock function", async () => {
-    const wrapper = mount(App);
-    const mockFn = vi.spyOn(wrapper.vm, 'setMsgByFn');
-    mockFn.mockImplementation(() => 'mocked message');
-    await wrapper.find('input[type=button]').trigger('click');
+  const wrapper = mount(App);
+  const mockFn = vi.spyOn(wrapper.vm, 'setMsgByFn');
+  mockFn.mockImplementation(() => 'mocked message');
+  await wrapper.find('#setMsgByFn').trigger('click');
+    
+  expect(wrapper.find("h1").text()).toBe("mocked message");
 
-    expect(wrapper.find("h1").text()).toBe("mocked message");
-
-    mockFn.mockRestore();
-    await wrapper.find('input[type=button]').trigger('click');
-
-    expect(wrapper.find("h1").text()).toBe("This message is from function");
+  mockFn.mockRestore();    
+  await wrapper.find('#setMsgByFn').trigger('click');
+    
+  expect(wrapper.find("h1").text()).toBe("This message is from function");
 });
 ```
 
+## 造假元件外部(引入)的 function
+新建 api.ts
+```TypeScript
+export interface IMyApi {
+    getApiMsg: () => string;
+}
+
+export const MyApi: IMyApi = {
+    getApiMsg: () => 'This msg from api',
+};
+
+```
+App.vue 加上這些
+```HTML
+<script setup lang="ts">
+...
+import { MyApi as api } from './api'
+</script>
+
+<template>
+  <input type="button" id="setMsgByApi" value="setMsgByApi" @click="() => { msg = api.getApiMsg(); }"/>
+...
+</template>
+```
+測試可以用 `vi.mocked()` combo `vi.spyOn()` 造假此方法
+```TypeScript
+test("mock api", async () => {
+  const wrapper = mount(App);
+  await wrapper.find('#setMsgByApi').trigger('click');
+
+  expect(wrapper.find('h1').text()).toBe('This msg from api');
+
+  const mockFn = vi.spyOn(vi.mocked(api), 'getApiMsg');
+  mockFn.mockImplementation(() => 'mocked message');
+  await wrapper.find('#setMsgByApi').trigger('click');
+  await wrapper.vm.$nextTick();
+
+  expect(wrapper.find('h1').text()).toBe('mocked message');
+
+  mockFn.mockRestore();
+  await wrapper.find('#setMsgByApi').trigger('click');
+
+  expect(wrapper.find('h1').text()).toBe('This msg from api');
+});
+```
 
 ## 依賴注入
 https://vuejs.org/guide/components/provide-inject.html
