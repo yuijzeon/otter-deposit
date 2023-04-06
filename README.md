@@ -357,7 +357,6 @@ https://vuejs.org/guide/components/provide-inject.html
 ## 後記
 
 ### Store 傳值 vs Props 傳值
-Store 傳值
 * 程式的可讀性變差，因為它會讓程式的流程變得複雜，且不易理解。
 * 程式的可維護性變差，因為它會讓程式的錯誤更難以追蹤和修正。
 * 程式的可重用性變差，因為它會讓程式的模組化和組件化變得更加困難。
