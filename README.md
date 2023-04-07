@@ -356,6 +356,30 @@ https://vuejs.org/guide/components/provide-inject.html
 
 ## 後記
 
+### VSCode .ts 檔 import .vue 錯誤
+在用 VSCode 開啟 .ts 時, IDE 會誤報 Cannot find module '.vue' or its corresponding type declarations. 的錯誤訊息
+
+這是 VSCode 的問題, 用其他 IDE 不會有這個問題
+
+移除此擴充功能可以解決 `@builtin TypeScript and JavaScript Language Features`
+https://vuejs.org/guide/typescript/overview.html#configuring-tsconfig-json
+
+### Props 傳值注意事項
+
+一般來說在修改子元件的 props 會報錯
+是因為 vue 並不推薦修改 props 的值
+
+真的要修改的話需要用 `v-model` 或 `:prop.sync` 搭配 emit 來修改
+
+需要注意的是在使用 props 傳 Array 或 Object 值時是 pass by reference 的
+直接改 props 會連帶影響到父組件的值
+
+為了避免修改到原始數據, 會希望在子組件內部使用一份複製的數據
+這時可以使用 [`v-bind` 的自動解構](https://ithelp.ithome.com.tw/articles/10267556)來達成
+(在 Object 的 property 都是 Pass by value 的情況下)
+
+或是使用 `emit` 使之在父組件修改
+
 ### Store 傳值 vs Props 傳值
 * 程式的可讀性變差，因為它會讓程式的流程變得複雜，且不易理解。
 * 程式的可維護性變差，因為它會讓程式的錯誤更難以追蹤和修正。
