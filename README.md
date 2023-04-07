@@ -397,6 +397,9 @@ https://vuejs.org/guide/typescript/overview.html#configuring-tsconfig-json
 
 在更多組件的情況下將難以追蹤究竟是誰修改了變數
 
+### Vue 官方風格指南
+https://vuejs.org/style-guide/
+
 ### 只要有 Quasar 組件跑測試就報錯
 > 有用到 UI Framework 測試可能需要安裝額外 NPM 包
 > 
