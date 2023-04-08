@@ -5,9 +5,8 @@ import PaymentMethodArea from "./PaymentMethodArea.vue";
 import PaymentOptionArea from "./PaymentOptionArea.vue";
 import PaymentChannelArea from "./PaymentChannelArea.vue";
 import AmountArea from "./AmountArea.vue";
-import { IDepositApis } from "./apis";
+import { DepositApis as api } from "./apis";
 
-const api: IDepositApis = inject('depositApis')!;
 const selected = reactive<DepositRequest>(new DepositRequest());
 const paymentMethods = reactive<PaymentMethod[]>([]);
 const selectedMethod = computed<PaymentMethod | undefined>(() => paymentMethods.find(pm => pm.key === selected.paymentMethod || (!pm.key && !selected.paymentMethod)));
