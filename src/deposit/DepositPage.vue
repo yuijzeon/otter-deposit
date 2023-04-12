@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { computed, inject, onMounted, reactive } from 'vue'
+import { computed, onMounted, reactive } from 'vue'
 import { PaymentMethod, PaymentOption, PaymentChannel, DepositRequest } from "./models";
 import PaymentMethodArea from "./PaymentMethodArea.vue";
 import PaymentOptionArea from "./PaymentOptionArea.vue";
@@ -7,49 +7,57 @@ import PaymentChannelArea from "./PaymentChannelArea.vue";
 import AmountArea from "./AmountArea.vue";
 import { DepositApis as api } from "./apis";
 
-const selected = reactive<DepositRequest>(new DepositRequest());
+const depositForm = reactive<DepositRequest>(new DepositRequest());
 const paymentMethods = reactive<PaymentMethod[]>([]);
-const selectedMethod = computed<PaymentMethod | undefined>(() => paymentMethods.find(pm => pm.key === selected.paymentMethod || (!pm.key && !selected.paymentMethod)));
-const selectedOption = computed<PaymentOption | undefined>(() => selectedMethod.value?.options.find(po => po.key === selected.bankCode || (!po.key && !selected.bankCode)));
-const selectedChannel = computed<PaymentChannel | undefined>(() => selectedOption.value?.channels.find(pc => pc.key === selected.provider || (!pc.key && !selected.provider)));
+const selected : {
+  method: PaymentMethod | undefined,
+  option: PaymentOption | undefined,
+  channel: PaymentChannel | undefined,
+} = reactive({
+  method: computed(() => paymentMethods
+      .find(pm => pm.key === depositForm.paymentMethod || (!pm.key && !depositForm.paymentMethod))),
+  option: computed(() => selected.method?.options
+      .find(po => po.key === depositForm.bankCode || (!po.key && !depositForm.bankCode))),
+  channel: computed(() => selected.option?.channels
+      .find(pc => pc.key === depositForm.provider || (!pc.key && !depositForm.provider))),
+});
 
 onMounted(async () => {
-  // await api.getPayments();
   paymentMethods.push(...(await api.getPayments()));
 });
 
 async function doDeposit() {
   await new Promise(resolve => setTimeout(resolve, 500));
-  console.log({ ...selected });
+  console.log({ ...depositForm });
 }
 </script>
 
 <template>
   <PaymentMethodArea
-      v-model="selected.paymentMethod"
+      v-model="depositForm.paymentMethod"
       :paymentMethods="paymentMethods"
   ></PaymentMethodArea>
 
   <PaymentOptionArea
-      v-model="selected.bankCode"
-      :paymentOptions="selectedMethod?.options"
+      v-model="depositForm.bankCode"
+      :paymentOptions="selected.method?.options"
   ></PaymentOptionArea>
 
   <PaymentChannelArea
-      v-model="selected.provider"
-      :paymentChannels="selectedOption?.channels"
+      v-model="depositForm.provider"
+      :paymentChannels="selected.option?.channels"
   ></PaymentChannelArea>
 
   <AmountArea
-      v-model="selected.amount"
-      :channel="selectedChannel"
+      v-model="depositForm.amount"
+      :channel="selected.channel"
   ></AmountArea>
 
   <br>
   <q-btn no-caps
          label="Deposit"
          color="primary"
-         :disable="selected.continuable"
+         :disable="depositForm.continuable"
          @click="doDeposit()"
   />
 </template>
