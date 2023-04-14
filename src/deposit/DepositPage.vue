@@ -7,9 +7,9 @@ import PaymentChannelArea from "./PaymentChannelArea.vue";
 import AmountArea from "./AmountArea.vue";
 import { DepositApis as api } from "./apis";
 
-const depositForm = reactive<DepositRequest>(new DepositRequest());
-const paymentMethods = reactive<PaymentMethod[]>([]);
-const selected : {
+const depositForm: DepositRequest = reactive(new DepositRequest());
+const paymentMethods: PaymentMethod[] = reactive([]);
+const selected: {
   method: PaymentMethod | undefined,
   option: PaymentOption | undefined,
   channel: PaymentChannel | undefined,
@@ -23,7 +23,7 @@ const selected : {
 });
 
 onMounted(async () => {
-  paymentMethods.push(...(await api.getPayments()));
+  paymentMethods.splice(0, paymentMethods.length, ...await api.getPayments());
 });
 
 async function doDeposit() {
