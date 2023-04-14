@@ -15,11 +15,11 @@ const selected: {
   channel: PaymentChannel | undefined,
 } = reactive({
   method: computed(() => paymentMethods
-      .find(pm => pm.key === depositForm.paymentMethod || (!pm.key && !depositForm.paymentMethod))),
+      .find(pm => pm.key === depositForm.paymentMethod)),
   option: computed(() => selected.method?.options
-      .find(po => po.key === depositForm.bankCode || (!po.key && !depositForm.bankCode))),
+      .find(po => po.key === depositForm.bankCode)),
   channel: computed(() => selected.option?.channels
-      .find(pc => pc.key === depositForm.provider || (!pc.key && !depositForm.provider))),
+      .find(pc => pc.key === depositForm.provider)),
 });
 
 onMounted(async () => {
@@ -36,29 +36,26 @@ async function doDeposit() {
   <PaymentMethodArea
       v-model="depositForm.paymentMethod"
       :paymentMethods="paymentMethods"
-  ></PaymentMethodArea>
-
+  />
   <PaymentOptionArea
       v-model="depositForm.bankCode"
       :paymentOptions="selected.method?.options"
-  ></PaymentOptionArea>
-
+  />
   <PaymentChannelArea
       v-model="depositForm.provider"
       :paymentChannels="selected.option?.channels"
-  ></PaymentChannelArea>
-
+  />
   <AmountArea
       v-model="depositForm.amount"
       :channel="selected.channel"
-  ></AmountArea>
-
+  />
   <br>
-  <q-btn no-caps
-         label="Deposit"
-         color="primary"
-         :disable="depositForm.continuable"
-         @click="doDeposit()"
+  <q-btn
+      no-caps
+      label="Deposit"
+      color="primary"
+      :disable="!depositForm.continuable"
+      @click="doDeposit()"
   />
 </template>
 

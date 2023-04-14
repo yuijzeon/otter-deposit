@@ -5,7 +5,7 @@ import { PaymentChannel } from "./models";
 const props = defineProps({
   modelValue: {
     type: String,
-    required: true
+    default: null,
   },
   paymentChannels: {
     type: Array as () => PaymentChannel[],
@@ -18,7 +18,7 @@ const emit = defineEmits(['update:modelValue']);
 
 watch(() => props.paymentChannels, () => {
   if (!props.paymentChannels.filter(pc => pc.status === 'Active').some(pc => pc.key === props.modelValue)) {
-    emit('update:modelValue', props.paymentChannels.filter(pc => pc.status === 'Active')[0]?.key || '');
+    emit('update:modelValue', props.paymentChannels.filter(pc => pc.status === 'Active')[0]?.key || null);
   }
 }, { deep: true });
 </script>

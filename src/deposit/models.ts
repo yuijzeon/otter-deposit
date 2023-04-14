@@ -1,10 +1,13 @@
 export class DepositRequest {
-    paymentMethod: string = '';
-    provider: string = '';
-    bankCode: string = '';
+    paymentMethod: string | null = null;
+    provider: string | null = null;
+    bankCode: string | null = null;
     amount: number | null = null;
+
     get continuable() {
-        return this.amount === null;
+        return this.paymentMethod !== null
+          && this.provider !== null
+          && this.amount !== null;
     }
 }
 
