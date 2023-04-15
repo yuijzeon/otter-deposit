@@ -37,9 +37,10 @@ function updateAmount(amountValue: number) {
 
     <template v-if="channel">
       <template v-for="sa in channel.suggestAmounts">
-        <q-btn no-caps
-               :label="`${sa.rank} - ${sa.amount}`"
-               @click="() => { updateAmount(sa.amount) }"
+        <q-btn
+            no-caps
+            :label="`${sa.rank} - ${sa.amount}`"
+            @click="() => { updateAmount(sa.amount) }"
         ></q-btn>
       </template>
     </template>

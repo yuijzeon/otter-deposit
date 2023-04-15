@@ -1,8 +1,8 @@
 import { test, expect, describe, beforeEach } from 'vitest'
 import { mount, VueWrapper } from "@vue/test-utils";
 import { installQuasarPlugin } from "@quasar/quasar-app-extension-testing-unit-vitest";
-import { PaymentOption } from "../../src/deposit/models";
-import DepositPageAreaPaymentMethod from "../../src/deposit/DepositPageAreaPaymentMethod.vue";
+import { PaymentOption } from "../models";
+import DepositPageAreaPaymentMethod from "../DepositPageAreaPaymentMethod.vue";
 
 installQuasarPlugin();
 

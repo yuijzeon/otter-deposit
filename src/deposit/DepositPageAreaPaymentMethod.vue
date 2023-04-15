@@ -26,7 +26,8 @@ watch(() => props.paymentMethods, () => {
   {{ modelValue }}
   <div>
     <template v-for="pm in paymentMethods">
-      <q-btn no-caps
+      <q-btn
+          no-caps
           :label="pm.name"
           :disable="pm.status !== 'Active'"
           :color="pm.key === modelValue || (!pm.key && !modelValue) ? 'primary' : 'grey'"

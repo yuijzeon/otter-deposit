@@ -1,6 +1,6 @@
 import { test, expect, describe, beforeEach } from 'vitest'
 import { DOMWrapper, mount, VueWrapper } from "@vue/test-utils";
-import CurrencyInput from "../../src/components/CurrencyInput.vue";
+import CurrencyInput from "../CurrencyInput.vue";
 
 describe("CurrencyInput", () => {
     let wrapper: VueWrapper;

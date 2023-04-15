@@ -1,17 +1,17 @@
 import { beforeEach, describe, expect, test } from 'vitest'
 import { DOMWrapper, mount, VueWrapper } from "@vue/test-utils";
 import { installQuasarPlugin } from "@quasar/quasar-app-extension-testing-unit-vitest";
-import { PaymentChannel } from "../../src/deposit/models";
-import AmountArea from "../../src/deposit/DepositPageAreaAmount.vue";
+import { PaymentChannel } from "../models";
+import AreaAmount from "../DepositPageAreaAmount.vue";
 
 installQuasarPlugin();
 
-describe("AmountArea", () => {
+describe("AreaAmount", () => {
     let wrapper: VueWrapper;
     let input: DOMWrapper<HTMLInputElement>;
 
     beforeEach(() => {
-        wrapper = mount(AmountArea, {
+        wrapper = mount(AreaAmount, {
             props: { modelValue: 0, channel: undefined }
         });
         input = wrapper.find('input');

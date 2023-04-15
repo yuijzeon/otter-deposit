@@ -27,7 +27,8 @@ watch(() => props.paymentChannels, () => {
   {{ modelValue }}
   <div>
     <template v-for="pc in paymentChannels">
-      <q-btn no-caps
+      <q-btn
+          no-caps
           :label="`${pc.name}${pc.hasFee ? '*' : ''}`"
           :disable="pc.status !== 'Active'"
           :color="pc.key === modelValue || (!pc.key && !modelValue) ? 'primary' : 'grey'"
