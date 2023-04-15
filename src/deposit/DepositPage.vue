@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import { computed, onMounted, reactive } from 'vue'
 import { PaymentMethod, PaymentOption, PaymentChannel, DepositRequest } from "./models";
-import PaymentMethodArea from "./PaymentMethodArea.vue";
-import PaymentOptionArea from "./PaymentOptionArea.vue";
-import PaymentChannelArea from "./PaymentChannelArea.vue";
-import AmountArea from "./AmountArea.vue";
+import AreaPaymentMethod from "./DepositPageAreaPaymentMethod.vue";
+import AreaPaymentOption from "./DepositPageAreaPaymentOption.vue";
+import AreaPaymentChannel from "./DepositPageAreaPaymentChannel.vue";
+import AreaAmount from "./DepositPageAreaAmount.vue";
 import { DepositApis as api } from "./apis";
 
+// Reactive way
 const depositForm: DepositRequest = reactive(new DepositRequest());
 const paymentMethods: PaymentMethod[] = reactive([]);
 const selected: {
@@ -26,6 +27,27 @@ onMounted(async () => {
   paymentMethods.splice(0, paymentMethods.length, ...await api.getPayments());
 });
 
+// Ref way
+// const depositForm: Ref<DepositRequest> = ref(new DepositRequest());
+// const paymentMethods: Ref<PaymentMethod[]> = ref([]);
+// const selected: Ref<{
+//   method: PaymentMethod | undefined,
+//   option: PaymentOption | undefined,
+//   channel: PaymentChannel | undefined,
+// }> = ref({
+//   method: computed(() => paymentMethods.value
+//       .find(pm => pm.key === depositForm.value.paymentMethod)),
+//   option: computed(() => selected.value.method?.options
+//       .find(po => po.key === depositForm.value.bankCode)),
+//   channel: computed(() => selected.value.option?.channels
+//       .find(pc => pc.key === depositForm.value.provider)),
+// });
+//
+// onMounted(async () => {
+//   paymentMethods.value = await api.getPayments();
+//   // paymentMethods.value.splice(0, paymentMethods.value.length, ...await api.getPayments());
+// });
+
 async function doDeposit() {
   await new Promise(resolve => setTimeout(resolve, 500));
   console.log({ ...depositForm });
@@ -33,19 +55,19 @@ async function doDeposit() {
 </script>
 
 <template>
-  <PaymentMethodArea
+  <AreaPaymentMethod
       v-model="depositForm.paymentMethod"
-      :paymentMethods="paymentMethods"
+      :payment-methods="paymentMethods"
   />
-  <PaymentOptionArea
+  <AreaPaymentOption
       v-model="depositForm.bankCode"
-      :paymentOptions="selected.method?.options"
+      :payment-options="selected.method?.options"
   />
-  <PaymentChannelArea
+  <AreaPaymentChannel
       v-model="depositForm.provider"
-      :paymentChannels="selected.option?.channels"
+      :payment-channels="selected.option?.channels"
   />
-  <AmountArea
+  <AreaAmount
       v-model="depositForm.amount"
       :channel="selected.channel"
   />
